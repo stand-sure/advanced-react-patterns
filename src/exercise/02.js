@@ -8,7 +8,7 @@ function Toggle() {
   const [on, setOn] = React.useState(false)
   const toggle = () => setOn(!on)
 
-  // 🐨 replace this with a call to React.Children.map and map each child in
+  // TODO🐨 replace this with a call to React.Children.map and map each child in
   // props.children to a clone of that child with the props they need using
   // React.cloneElement.
   // 💰 React.Children.map(props.children, child => {/* return child clone here */})
