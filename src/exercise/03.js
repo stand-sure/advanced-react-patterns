@@ -1,48 +1,55 @@
 // Flexible Compound Components
 // http://localhost:3000/isolated/exercise/03.js
 
-import * as React from 'react'
-import {Switch} from '../switch'
+import * as React from "react";
+import {Switch} from "../switch";
 
-// 🐨 create your ToggleContext context here
+const ToggleContext = React.createContext();
+ToggleContext.displayName = "ToggleContext";
+
 // 📜 https://reactjs.org/docs/context.html#reactcreatecontext
 
 function Toggle({children}) {
-  const [on, setOn] = React.useState(false)
-  const toggle = () => setOn(!on)
+  const [on, setOn] = React.useState(false);
+  const toggle = () => setOn(!on);
 
-  // 🐨 remove all this 💣 and instead return <ToggleContext.Provider> where
-  // the value is an object that has `on` and `toggle` on it.
-  return React.Children.map(children, child => {
-    return typeof child.type === 'string'
-      ? child
-      : React.cloneElement(child, {on, toggle})
-  })
+  const value = {on, toggle};
+
+  return (
+    <ToggleContext.Provider value={value}>{children}</ToggleContext.Provider>
+  );
 }
 
-// 🐨 we'll still get the children from props (as it's passed to us by the
-// developers using our component), but we'll get `on` implicitly from
-// ToggleContext now
-// 🦉 You can create a helper method to retrieve the context here. Thanks to that,
-// your context won't be exposed to the user
-// 💰 `const context = React.useContext(ToggleContext)`
-// 📜 https://reactjs.org/docs/hooks-reference.html#usecontext
-function ToggleOn({on, children}) {
-  return on ? children : null
+function useToggle() {
+  const context = React.useContext(ToggleContext);
+  if (context === undefined) {
+    throw new Error(`useToggle must be used within a <Toggle />`);
+  }
+
+  return context;
 }
 
-// 🐨 do the same thing to this that you did to the ToggleOn component
-function ToggleOff({on, children}) {
-  return on ? null : children
+function ToggleOn({children}) {
+  const {on} = useToggle();
+  return on ? children : null;
 }
 
-// 🐨 get `on` and `toggle` from the ToggleContext with `useContext`
-function ToggleButton({on, toggle, ...props}) {
-  return <Switch on={on} onClick={toggle} {...props} />
+function ToggleOff({children}) {
+  const {on} = useToggle();
+  return on ? null : children;
 }
+
+function ToggleButton(props) {
+  const {on, toggle} = useToggle();
+  return <Switch on={on} onClick={toggle} {...props} />;
+}
+
+const breakIt = false;
 
 function App() {
-  return (
+  return breakIt ? (
+    <ToggleButton />
+  ) : (
     <div>
       <Toggle>
         <ToggleOn>The button is on</ToggleOn>
@@ -52,10 +59,10 @@ function App() {
         </div>
       </Toggle>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
 
 /*
 eslint
