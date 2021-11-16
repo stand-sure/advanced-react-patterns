@@ -7,7 +7,7 @@ import {Switch} from "../switch";
 function callAll(...fns) {
   return (...args) => {
     fns.forEach(fn => {
-      fn?.(...args);
+      typeof fn === "function" && fn(...args);
     });
   };
 }
@@ -20,7 +20,7 @@ function useToggle() {
     return {
       toggle,
       "aria-pressed": on,
-      onClick: callAll(onClick, toggle),
+      onClick: callAll(toggle, onClick),
       ...props,
     };
   }
