@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import {dequal} from "dequal";
+import "./01.scss"
 
 // ./context/user-context.js
 
@@ -112,7 +113,7 @@ function UserSettings() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{marginBottom: 12}}>
+      <div className="form-div">
         <label style={{display: "block"}} htmlFor="username">
           Username
         </label>
@@ -125,7 +126,7 @@ function UserSettings() {
           style={{width: "100%"}}
         />
       </div>
-      <div style={{marginBottom: 12}}>
+      <div className="form-div">
         <label style={{display: "block"}} htmlFor="tagline">
           Tagline
         </label>
@@ -137,7 +138,7 @@ function UserSettings() {
           style={{width: "100%"}}
         />
       </div>
-      <div style={{marginBottom: 12}}>
+      <div className="form-div form-div--light">
         <label style={{display: "block"}} htmlFor="bio">
           Biography
         </label>
@@ -172,7 +173,7 @@ function UserSettings() {
             ? "Submit"
             : "✔"}
         </button>
-        {isRejected ? <pre style={{color: "red"}}>{error.message}</pre> : null}
+        {isRejected ? <pre className="rejected">{error.message}</pre> : null}
       </div>
     </form>
   );

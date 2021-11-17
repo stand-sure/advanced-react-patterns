@@ -1,0 +1,31 @@
+$form-div-bottom-margin: 12px;
+$light: #f5f5f5;
+
+$border-radius: 4px;
+$border-color: #d00;
+$border-line-width: 1px;
+$border-line-style: solid;
+
+%rounded {
+  border-radius: $border-radius;
+  padding: $border-radius;
+  border: $border-line-style $border-line-width $border-color;
+}
+
+.form-div {
+  margin-bottom: $form-div-bottom-margin;
+}
+
+@mixin light($property) {
+  #{$property}: $light;
+}
+
+.form-div--light {
+  @include light("background-color");
+  @extend %rounded;
+}
+
+.rejected {
+    color: red;
+    font-style: italic;
+}
