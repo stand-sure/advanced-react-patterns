@@ -16,7 +16,7 @@ test('warning for controlled component without onChange', () => {
   render(<Toggle on={false} />)
   alfredTip(
     () =>
-      expect(console.error).toHaveBeenCalledWith(
+      console.error.mock && expect(console.error).toHaveBeenCalledWith(
         expect.stringMatching(/readOnly/i),
       ),
     'Make sure the error message explains you can use a "readOnly" prop',
@@ -58,6 +58,7 @@ test('warning for changing from controlled to uncontrolled', () => {
   }
   render(<Example />)
   userEvent.click(screen.getByLabelText(/toggle/i))
+  
   alfredTip(
     () =>
       expect(console.error).toHaveBeenCalledWith(
@@ -76,7 +77,7 @@ test('warning for changing from uncontrolled to controlled', () => {
   userEvent.click(screen.getByLabelText(/toggle/i))
   alfredTip(
     () =>
-      expect(console.error).toHaveBeenCalledWith(
+    (console.log(console.error.mock.calls) || true) && expect(console.error).toHaveBeenCalledWith(
         expect.stringMatching(/from uncontrolled to controlled/i),
       ),
     `Make sure to explain that it's changing "from uncontrolled to controlled"`,
