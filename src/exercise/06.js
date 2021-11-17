@@ -5,6 +5,8 @@ import * as React from "react";
 import {Switch} from "../switch";
 import warning from "warning";
 
+const warningShouldBeFalse = (shouldBeFalse, text) => warning(!shouldBeFalse, text);
+
 const callAll =
   (...fns) =>
   (...args) =>
@@ -41,13 +43,13 @@ function useControlledSwitchWarning({
     const isNowControlled = !wasControlled && isControlled;
     const noLongerControlled = wasControlled && !isControlled;
 
-    warning(
-      !noLongerControlled,
+    warningShouldBeFalse(
+      noLongerControlled,
       `\`${componentName}\` is changing from controlled to be uncontrolled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled \`${componentName}\` for the lifetime of the component. Check the \`${controlledPropName}\` prop.`,
     );
 
-    warning(
-      !isNowControlled,
+    warningShouldBeFalse(
+      isNowControlled,
       `\`${componentName}\` is changing from uncontrolled to be controlled. Components should not switch from uncontrolled to controlled (or vice versa). Decide between using a controlled or uncontrolled \`${componentName}\` for the lifetime of the component. Check the \`${controlledPropName}\` prop.`,
     );
   }, [componentName, controlledPropName, isControlled, wasControlled]);
@@ -67,8 +69,8 @@ function useOnChangeReadonlyWarning({
   React.useEffect(() => {
     const missingChangeHandler = isControlled && !hasOnChange && !readOnly;
 
-    warning(
-      !missingChangeHandler,
+    warningShouldBeFalse(
+      missingChangeHandler,
       `A \`${controlledPropName}\` prop was provided to \`${componentName}\` without an \`${onChangePropName}\` handler. This will result in a read-only \`${controlledPropName}\` value. If you want it to be mutable, use \`${onChangePropName}\`. Otherwise, set either \`${initialValuePropName}\` or \`${readOnlyPropName}\`.`,
     );
   }, [
@@ -114,12 +116,9 @@ function useToggle({
   });
 
   function dispatchWithOnChange(action) {
-    if (!isControlled) {
-      dispatch(action);
-    }
-
+    !isControlled && dispatch(action);
     const suggestedState = reducer({...state, on}, action);
-    onChange && onChange(suggestedState, action);
+    onChange?.(suggestedState, action);
   }
 
   const toggle = () => dispatchWithOnChange({type: actionTypes.toggle});
