@@ -1,0 +1,19 @@
+.form-div--light {
+  border-radius: 4px;
+  padding: 4px;
+  border: solid 1px #d00;
+}
+
+.form-div {
+  margin-bottom: 12px;
+}
+
+.form-div--light {
+  background-color: #f5f5f5;
+}
+
+.rejected {
+  color: red;
+  font-style: italic;
+}
+/*# sourceMappingURL=01.css.map */
