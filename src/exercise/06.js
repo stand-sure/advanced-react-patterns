@@ -103,22 +103,26 @@ function useToggle({
   const isControlled = typeof controlledOn === "boolean";
   const on = isControlled ? controlledOn : state.on;
 
-  useControlledSwitchWarning({
-    controlledPropName: nameOf({on}),
-    controlledPropValue: controlledOn,
-    componentName: nameOf({useToggle}),
-  });
+  if (process.env.NODE_ENV !== "production") {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useControlledSwitchWarning({
+      controlledPropName: nameOf({on}),
+      controlledPropValue: controlledOn,
+      componentName: nameOf({useToggle}),
+    });
 
-  useOnChangeReadonlyWarning({
-    controlledPropValue: controlledOn,
-    controlledPropName: nameOf({on}),
-    componentName: nameOf({useToggle}),
-    hasOnChange: typeof onChange === "function",
-    readOnly,
-    readOnlyPropName: nameOf({readOnly}),
-    initialValuePropName: nameOf({initialOn}),
-    onChangePropName: nameOf({onChange}),
-  });
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useOnChangeReadonlyWarning({
+      controlledPropValue: controlledOn,
+      controlledPropName: nameOf({on}),
+      componentName: nameOf({useToggle}),
+      hasOnChange: typeof onChange === "function",
+      readOnly,
+      readOnlyPropName: nameOf({readOnly}),
+      initialValuePropName: nameOf({initialOn}),
+      onChangePropName: nameOf({onChange}),
+    });
+  }
 
   function dispatchWithOnChange(action) {
     !isControlled && dispatch(action);
