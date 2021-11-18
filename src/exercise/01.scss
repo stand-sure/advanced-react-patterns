@@ -1,27 +1,22 @@
-$form-div-bottom-margin: 12px;
-$light: #f5f5f5;
-
-$border-radius: 4px;
-$border-color: #d00;
-$border-line-width: 1px;
-$border-line-style: solid;
-
-@mixin light($property) {
-  #{$property}: $light;
-}
-
-%rounded {
-  border-radius: $border-radius;
-  padding: $border-radius;
-  border: $border-line-style $border-line-width $border-color;
-}
+@import "./common.scss";
 
 .form {
+  // `&` is a reference to the parent
+  // `-div` is the SUIT convention for the class names of child elements of components
   &-div {
     margin-bottom: $form-div-bottom-margin;
 
+    // `--light` is the SUIT convention for the class names of named variants of a component
+    // normal usage would be to include both class names, e.g.: `.form-div .form-div--light`
     &--light {
       @include light("background-color");
+      //@extend .form-div; // can do this -- but generally shouldn't
+      //@extend &-div; // cannot do this
+      
+      /* 
+       * you can also extend other class names with the @extend directive, e.g.
+       * @extend .form-div--light;
+       */
       @extend %rounded;
     }
   }

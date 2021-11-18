@@ -1,0 +1,17 @@
+$form-div-bottom-margin: 12px;
+$light: #f5f5f5;
+
+$border-radius: 4px;
+$border-color: #d00;
+$border-line-width: 1px;
+$border-line-style: dashed;
+
+@mixin light($property) {
+  #{$property}: $light;
+}
+
+%rounded {
+  border-radius: $border-radius;
+  padding: $border-radius;
+  border: $border-line-style $border-line-width $border-color;
+}
