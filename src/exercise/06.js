@@ -5,7 +5,12 @@ import * as React from "react";
 import {Switch} from "../switch";
 import warning from "warning";
 
-const warningShouldBeFalse = (shouldBeFalse, text) => warning(!shouldBeFalse, text);
+const warningShouldBeFalse = (shouldBeFalse, text) =>
+  warning(!shouldBeFalse, text);
+
+function nameOf(obj) {
+  return Object.keys(obj)[0];
+}
 
 const callAll =
   (...fns) =>
@@ -99,20 +104,20 @@ function useToggle({
   const on = isControlled ? controlledOn : state.on;
 
   useControlledSwitchWarning({
-    controlledPropName: "on",
+    controlledPropName: nameOf({on}),
     controlledPropValue: controlledOn,
-    componentName: "useToggle",
+    componentName: nameOf({useToggle}),
   });
 
   useOnChangeReadonlyWarning({
     controlledPropValue: controlledOn,
-    controlledPropName: "on",
-    componentName: "useToggle",
+    controlledPropName: nameOf({on}),
+    componentName: nameOf({useToggle}),
     hasOnChange: typeof onChange === "function",
     readOnly,
-    readOnlyPropName: "readOnly",
-    initialValuePropName: "initialOn",
-    onChangePropName: "onChange",
+    readOnlyPropName: nameOf({readOnly}),
+    initialValuePropName: nameOf({initialOn}),
+    onChangePropName: nameOf({onChange}),
   });
 
   function dispatchWithOnChange(action) {
